@@ -35,6 +35,12 @@ LOCAL_C_INCLUDES += $(MESA_TOP)/src/amd/common
 LOCAL_SHARED_LIBRARIES := libdrm_radeon
 LOCAL_MODULE := libmesa_pipe_r600
 
+ifeq ($(MESA_ENABLE_LLVM),true)
+LOCAL_CFLAGS += -DFORCE_BUILD_AMDGPU   # instructs LLVM to declare LLVMInitializeAMDGPU* functions
+LOCAL_SHARED_LIBRARIES += libLLVM
+$(call mesa-build-with-llvm)
+endif
+
 LOCAL_MODULE_CLASS := STATIC_LIBRARIES
 intermediates := $(call local-generated-sources-dir)
 
